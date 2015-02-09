@@ -1,0 +1,16 @@
+{
+    "env": "test",
+    "port": 4000,
+    "auto_start": false,
+    "mongodb": {
+        "uri": "mongodb://localhost:27017/auth_test"
+    },
+    "log": {
+        "stdout": {
+            "level": "none"
+        },
+        "loggly": {
+            "level": "none"
+        }
+    }
+}
