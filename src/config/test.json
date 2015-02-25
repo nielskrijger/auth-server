@@ -7,7 +7,7 @@
     },
     "log": {
         "stdout": {
-            "level": "none"
+            "level": "debug"
         },
         "loggly": {
             "level": "none"

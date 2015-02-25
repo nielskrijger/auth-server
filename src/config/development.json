@@ -2,7 +2,8 @@
     "env": "development",
     "port": 3000,
     "mongodb": {
-        "uri": "mongodb://localhost:27017/auth_dev"
+        "uri": "mongodb://localhost:27017/auth_dev",
+        "debug": true
     },
     "log": {
         "stdout": {

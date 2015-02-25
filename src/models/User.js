@@ -9,28 +9,49 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
     _id: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true }
+    emails: [{
+        _id: false,
+        email: { type: String, required: true },
+        verified: { type: Boolean, required: true, default: false }
+    }],
+    roles: [String],
+    password: { type: String, required: true },
+    created: Date
 });
+UserSchema.index({ 'emails.email': 1 }, { unique: true });
 
-UserSchema.statics.createNew = function(email, password, callback) {
-    this.cryptPassword(password, function(err, hash) {
+/**
+ * Creates a new user.
+ *
+ * ```
+ * User.createNew({
+ *     email: 'example@test.org',
+ *     password: 'myPassword',
+ *     roles: ['admin']
+ * }, function(err, newUser) { ... })
+ * ```
+ */
+UserSchema.statics.createNew = function(newUser, callback) {
+    this.cryptPassword(newUser.password, function(err, hash) {
         if (err) {
             return callback(err);
         }
         var userId = uuid.v4();
-        log.debug({message: 'Creating new user', email: email, userId: userId });
+        log.debug({message: 'Creating new user', userId: userId, email: newUser.email });
         User.create({
             _id: userId,
-            email: email,
-            password: hash
+            emails: [
+                { email: newUser.email }
+            ],
+            password: hash,
+            created: new Date()
         }, callback);
     });
 };
 
 UserSchema.statics.findByEmail = function(email, callback) {
     User.findOne({
-        email: email
+        'emails.email': email
     }, function(err, user) {
         if (err) {
             return callback(err);
@@ -47,7 +68,7 @@ UserSchema.statics.findByEmail = function(email, callback) {
 UserSchema.statics.findIdByLogin = function(email, password, callback) {
     log.debug({message: 'Find user by email and password', email: email });
     User.findOne({
-        email: email
+        'emails.email': email
     }, function(err, user) {
         if (err) {
             return callback(err);

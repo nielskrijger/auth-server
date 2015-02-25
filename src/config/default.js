@@ -25,7 +25,11 @@ module.exports = {
             doc: 'The mongodb connection uri.',
             format: '*',
             default: 'mongodb://localhost:27017/auth',
-            env: 'MONGODB_URL'
+            env: 'MONGODB_URI'
+        },
+        debug: {
+            doc: 'The mongodb connection uri.',
+            default: false
         }
     },
     root: {
@@ -60,6 +64,30 @@ module.exports = {
         doc: 'Username of root user.',
         default: 10,
         env: 'BCRYPT_COST_FACTOR'
+    },
+    password: {
+        minlength: {
+            doc: 'Minimum length of password.',
+            default: 6
+        },
+        maxlength: {
+            doc: 'Minimum length of password.',
+            default: 128
+        }
+    },
+    i18n: {
+        locales: {
+            doc: 'An array of available localizations',
+            default: ['en']
+        },
+        default_locale: {
+            doc: 'Default locale',
+            default: 'en'
+        },
+        update_files: {
+            doc: 'Whether to write new locale information to disk',
+            default: false
+        }
     },
     log: {
         stdout: {

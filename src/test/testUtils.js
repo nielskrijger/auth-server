@@ -76,3 +76,11 @@ module.exports.createClient = function(id, secret, redirectUri, userId, done) {
         done(err, client);
     });
 };
+
+module.exports.createUser = function(app, newUser, accessToken) {
+    return request(app)
+        .post('/user')
+        .send(newUser)
+        .set('Accept', 'application/json')
+        .set('Authorization', 'Bearer ' + accessToken);
+};

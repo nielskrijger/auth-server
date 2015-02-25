@@ -1,3 +1,13 @@
+app:
+  build: .
+  ports:
+    - "3000:3000"
+  links:
+    - db
+  environment:
+    - MONGODB_URI
+    - COVERALLS_REPO_TOKEN
+
 db:
   image: mongo:2.6
   ports:

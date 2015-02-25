@@ -1,7 +1,5 @@
 /**
- * Runs scripts on application boot.
- *
- * The boot script is called after mongoose connection has been made.
+ * This script is run on each application boot.
  */
 
 var config = require('../lib/config');
@@ -28,7 +26,11 @@ function rootUser(callback) {
 }
 
 function createRootUser(callback) {
-    User.createNew(config.get('root.username'), config.get('root.password'), function(err, user) {
+    User.createNew({
+        email: config.get('root.username'),
+        password: config.get('root.password'),
+        roles: ['client']
+    }, function(err, user) {
         if (err) {
             return callback(err);
         }

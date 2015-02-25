@@ -8,7 +8,7 @@ Run the following query:
 
 ## Dockerfile
 
-Build and tag new image:
+If you're not using docker-compose you can build and tag a new image like this:
 
     $ sudo docker build -t <your username>/auth-server .
 
@@ -22,15 +22,21 @@ Run the container in detached mode:
 
 Now go to `http://localhost:3000` in your browser and you should see result!
 
+## Tests
+
+When contributing, please add tests! API tests using [supertest](https://github.com/visionmedia/supertest) are preferred.
+
 ## Directory structure
 
 The project is organized as follows:
 
     /src - All files in here are copied to the Docker container.
-    /src/api - Contains request handlers excluding those in [node-oauth2-server](https://github.com/thomseddon/node-oauth2-server).
+    /src/api - Contains request handlers excluding those in  the `node-oauth2-server` library.
     /src/boot - Contains scripts run each time when starting the server.
     /src/config - Contains configuration files. You can overwrite most configuration variables with environment variables.
-    /src/lib - Contains singletons and global functions.
-    /src/models - Contains [mongoose](http://mongoosejs.com/) models.
-    /src/test - Contains test files.
+    /src/lib - Contains singletons and generic functions.
+    /src/locales - Contains language files.
+    /src/models - Contains `mongoose` models.
+    /src/test - Contains API test files.
     /src/test/* - Mimics the directory structure of files being tested.
+    /deploy - Contains files related to deployment and building the docker image.

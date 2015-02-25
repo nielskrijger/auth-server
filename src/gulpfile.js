@@ -11,25 +11,40 @@ var coveralls = require('gulp-coveralls');
 
 require('jshint-stylish');
 
-gulp.task('lint', 'Lints all server side js', function() {
-    return gulp.src([
-            './*.js',
-            'lib/***/*.js',
-            'api/**/*.js',
-            'config/**/*.js',
-            'models/**/*.js',
-            'test/**/*.js'
-        ]).pipe(jshint())
+var paths = {
+    lint: [
+        './*.js',
+        'lib/**/*.js',
+        'api/**/*.js',
+        'config/**/*.js',
+        'models/**/*.js',
+        'test/**/*.js'
+    ],
+    coverage: [
+        './*.js',
+        'lib/**/*.js',
+        'api/**/*.js',
+        'config/**/*.js',
+        'models/**/*.js',
+        'test/**/*.js'
+    ],
+    cleanup: ['./coverage'],
+    test: ['test/**/*.js']
+};
+
+gulp.task('lint', 'Lints all js', function() {
+    return gulp.src(paths.lint)
+        .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('test', 'Runs all unit and API tests', function(cb) {
-    gulp.src(['app/**/*.js', 'lib/**/*.js', 'app.js'])
+    gulp.src(paths.coverage)
         .pipe(istanbul()) // Covering files
         .pipe(istanbul.hookRequire()) // Force `require` to return covered files
         .on('finish', function() {
-            gulp.src(['test/**/*.js'])
+            gulp.src(paths.test)
                 .pipe(mocha({
                     reporter: 'spec',
                     timeout: 10000
@@ -47,7 +62,7 @@ gulp.task('coveralls', 'Pushes coverage data to coveralls.io', function() {
 });
 
 gulp.task('clean-reports', 'Removes code coverage and reporting files', function() {
-    return gulp.src(['./coverage', './report'], {
+    return gulp.src(paths.cleanup, {
         read: false
     }).pipe(clean({
         force: true
