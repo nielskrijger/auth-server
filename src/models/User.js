@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var uuid = require('node-uuid');
+var moment = require('moment');
 var config = require('../lib/config');
 var log = require('../lib/logger');
 var Schema = mongoose.Schema;
@@ -12,11 +13,14 @@ var UserSchema = new Schema({
     emails: [{
         _id: false,
         email: { type: String, required: true },
-        verified: { type: Boolean, required: true, default: false }
+        verified: { type: Boolean, required: true, default: false },
+        created: { type: Date, required: true, default: moment().utc().toDate() },
+        modified: { type: Date, required: false },
     }],
     roles: [String],
     password: { type: String, required: true },
-    created: Date
+    created: { type: Date, required: true, default: moment().utc().toDate() },
+    modified: { type: Date, required: false },
 });
 UserSchema.index({ 'emails.email': 1 }, { unique: true });
 
@@ -41,14 +45,22 @@ UserSchema.statics.createNew = function(newUser, callback) {
         User.create({
             _id: userId,
             emails: [
-                { email: newUser.email }
+                {
+                    email: newUser.email
+                }
             ],
-            password: hash,
-            created: new Date()
+            password: hash
         }, callback);
     });
 };
 
+/**
+ * Finds a user by its email.
+ *
+ * ```
+ * User.findByEmail('example@test.org', function(err, user) { ... })
+ * ```
+ */
 UserSchema.statics.findByEmail = function(email, callback) {
     User.findOne({
         'emails.email': email

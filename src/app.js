@@ -62,7 +62,7 @@ app.use(bodyParser.json());
 app.use(i18n.init); // Use 'accept-language' header to guess language settings
 app.use(douane.middleware());
 app.use(function(req, res, next) {
-    req.validateOrNext = validateOrNextFunction(req, next);
+    req.validateOrQuit = validateOrQuitFunction(req, next);
     next();
 });
 
@@ -70,8 +70,9 @@ app.use(function(req, res, next) {
  * Validates the request object and runs next(err) if any validation error occurred.
  * When request is succesfull invokes a callback.
  */
-function validateOrNextFunction(req, next) {
+function validateOrQuitFunction(req, next) {
     return function(done) {
+        // TODO add validation option ?validate, return http code
         req.validate(function(err, result) {
             if (err) {
                 next(err);
@@ -83,7 +84,6 @@ function validateOrNextFunction(req, next) {
         });
     };
 }
-
 
 // Configure endpoints
 app.oauth = oauthserver({

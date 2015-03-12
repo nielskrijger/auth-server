@@ -26,6 +26,17 @@ Now go to `http://localhost:3000` in your browser and you should see result!
 
 When contributing, please add tests! API tests using [supertest](https://github.com/visionmedia/supertest) are preferred.
 
+## API
+
+**POST** /user
+```
+{
+    email: 'example@localhost.tst',
+    password: 'myPassword',
+    roles: ['root']
+}
+```
+
 ## Directory structure
 
 The project is organized as follows:

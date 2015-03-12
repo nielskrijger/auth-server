@@ -2,7 +2,7 @@
 
 var request = require('supertest');
 var assert = require('chai').assert;
-var testUtils = require('./testUtils');
+var helpers = require('./helpers');
 
 describe('Create access token', function () {
 
@@ -10,7 +10,7 @@ describe('Create access token', function () {
     var app;
 
     before(function(done) {
-        testUtils.init(function(err, app, client) {
+        helpers.init(function(err, app, client) {
             this.app = app;
             this.client = client;
             done();

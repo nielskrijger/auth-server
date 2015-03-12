@@ -27,7 +27,8 @@
     "mongoose": "~3.8.22",
     "lodash": "~3.1.0",
     "i18n": "~0.5.0",
-    "douane": "~0.0.2"
+    "douane": "~0.0.2",
+    "moment": "~2.9.0"
   },
   "devDependencies": {
     "gulp": "^3.8.10",

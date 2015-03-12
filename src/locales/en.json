@@ -5,6 +5,7 @@
 		"maxlength": "Should contain no more than {{0}} characters",
 		"minlength": "Should contain at least {{0}} characters",
 		"email": "Must be a valid email",
+		"uniqueEmail": "Email already in use",
 		"notempty": "Cannot be empty"
 	}
 }

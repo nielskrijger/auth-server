@@ -29,7 +29,7 @@ function createRootUser(callback) {
     User.createNew({
         email: config.get('root.username'),
         password: config.get('root.password'),
-        roles: ['client']
+        roles: ['userAdmin']
     }, function(err, user) {
         if (err) {
             return callback(err);
